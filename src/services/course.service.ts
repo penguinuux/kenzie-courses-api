@@ -7,6 +7,7 @@ import {
   serializedCourseSchema,
   serializedStudentsCoursesSchema,
 } from "../schemas";
+import mailerService from "./mailer.service";
 
 class CourseService {
   createCourse = async ({ validated }: Request): Promise<AssertsShape<any>> => {
@@ -54,6 +55,7 @@ class CourseService {
 
     course.students = [...course.students, user];
     await courseRepository.save(course);
+    mailerService.enrollmentEmail(user);
 
     return course;
   };
