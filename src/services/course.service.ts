@@ -51,11 +51,11 @@ class CourseService {
 
   courseEnroll = async ({ decoded, params }): Promise<Course> => {
     const course = await courseRepository.retrieve({ ...params });
-    const user = await userRepository.retrieve({ ...decoded });
+    const user = await userRepository.retrieve({ id: decoded.id });
 
     course.students = [...course.students, user];
     await courseRepository.save(course);
-    mailerService.enrollmentEmail(user);
+    mailerService.enrollmentEmail(user, course);
 
     return course;
   };

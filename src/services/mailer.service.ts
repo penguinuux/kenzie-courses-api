@@ -1,13 +1,33 @@
 import { ErrorHandler } from "../errors/errors";
 import transport from "../config/mailer.config";
+import { Course, User } from "../entities";
+import path from "path";
+import handlebars, {
+  NodemailerExpressHandlebarsOptions,
+} from "nodemailer-express-handlebars";
 
 class MailerService {
-  enrollmentEmail = ({ firstName, email }) => {
+  enrollmentEmail = (user: User, course: Course) => {
+    const handlebarOptions: NodemailerExpressHandlebarsOptions = {
+      viewEngine: {
+        partialsDir: path.resolve("./src/views/"),
+        defaultLayout: false,
+      },
+      viewPath: path.resolve("./src/views/"),
+    };
+
+    transport.use("compile", handlebars(handlebarOptions));
+
     const mailOption = {
       from: "coursekenzie@mail.com",
-      to: email,
+      to: user.email,
       subject: "New course enrollment",
-      text: `${firstName}, you subscribed to a new course.`,
+      template: "emailCourseEnrollment",
+      context: {
+        firstName: user.firstName,
+        courseName: course.courseName,
+        courseDuration: course.duration,
+      },
     };
 
     transport.sendMail(mailOption, (err) => {

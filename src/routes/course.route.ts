@@ -17,7 +17,11 @@ courseRouter.post(
   validateSchema(courseSchema),
   courseController.createCourse
 );
-courseRouter.post("/courses/:id/users", validateToken);
+courseRouter.post(
+  "/courses/:id/users",
+  validateToken,
+  courseController.courseEnroll
+);
 courseRouter.patch(
   "/courses/:id",
   validateToken,
