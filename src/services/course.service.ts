@@ -7,6 +7,7 @@ import {
   serializedCourseSchema,
   serializedStudentsCoursesSchema,
 } from "../schemas";
+import mailerService from "./mailer.service";
 
 class CourseService {
   createCourse = async ({ validated }: Request): Promise<AssertsShape<any>> => {
@@ -50,10 +51,11 @@ class CourseService {
 
   courseEnroll = async ({ decoded, params }): Promise<Course> => {
     const course = await courseRepository.retrieve({ ...params });
-    const user = await userRepository.retrieve({ ...decoded });
+    const user = await userRepository.retrieve({ id: decoded.id });
 
     course.students = [...course.students, user];
     await courseRepository.save(course);
+    mailerService.enrollmentEmail(user, course);
 
     return course;
   };

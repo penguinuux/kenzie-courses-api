@@ -3,7 +3,6 @@ import { userRepository } from "../repositories";
 import { Request } from "express";
 import jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
-import { ErrorHandler } from "../errors/errors";
 import {
   serializedAdminUsersSchema,
   serializedCreateUserSchema,
