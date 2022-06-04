@@ -16,6 +16,14 @@ class CourseController {
     const course = await courseService.updateCourse(req);
     return res.status(200).json(course);
   };
+
+  courseEnroll = async (req: Request, res: Response) => {
+    const course = await courseService.courseEnroll(req);
+
+    return res
+      .status(200)
+      .json({ message: "Email de inscrição enviado com sucesso." });
+  };
 }
 
 export default new CourseController();
