@@ -8,12 +8,14 @@ config();
 
 describe("validateToken Middleware Tests", () => {
   const mockReq: Partial<Request> = {};
-  const mockRes: Partial<Response> = {
-    status: jest.fn(),
-    json: jest.fn(),
-  };
+  const mockRes: Partial<Response> = {};
 
   const nextFunction: NextFunction = jest.fn();
+
+  beforeEach(() => {
+    mockRes.json = jest.fn().mockReturnValue(mockRes);
+    mockRes.status = jest.fn().mockReturnValue(mockRes);
+  });
 
   it("Error: Missing authorization token. | Status code: 400", async () => {
     mockReq.headers = {};
