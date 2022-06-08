@@ -1,7 +1,10 @@
 import supertest from "supertest";
 import { Connection, generateCourse } from "..";
 import app from "../../app";
+import { User } from "../../entities";
 import { Course } from "../../entities/Course.entity";
+import { userRepository } from "../../repositories";
+import { sign } from "jsonwebtoken";
 
 describe("Create course route | Integration Test", () => {
   const dbConnection = new Connection();
@@ -22,24 +25,27 @@ describe("Create course route | Integration Test", () => {
   it("Return: Course as JSON response | Status code: 201", async () => {
     const course: Partial<Course> = generateCourse();
 
-    await supertest(app).post("/users").send({
-      firstName: "Admin",
-      lastName: "Admin",
-      email: "admin@testmail.com",
-      password: "test",
-      isAdm: true,
-    });
+    const adminUser = new User();
+    adminUser.firstName = "Admin";
+    adminUser.lastName = "Admin";
+    adminUser.email = "admin@testmail.com";
+    adminUser.password = "test";
+    adminUser.isAdm = true;
+    adminUser.createdAt = new Date();
+    adminUser.updatedAt = new Date();
 
-    const login = await supertest(app)
-      .post("/login")
-      .send({ email: "admin@testmail.com", password: "test" });
+    await userRepository.save(adminUser);
+
+    const token = sign({ id: adminUser.id }, process.env.SECRET_KEY as string, {
+      expiresIn: process.env.EXPIRES_IN,
+    });
 
     const response = await supertest(app)
       .post("/courses")
       .send({
         ...course,
       })
-      .set("Authorization", `Bearer ${login.body.token}`);
+      .set("Authorization", `Bearer ${token}`);
 
     expect(response.status).toBe(201);
     expect(response.body).toHaveProperty("id");
