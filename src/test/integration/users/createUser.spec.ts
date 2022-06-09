@@ -1,7 +1,7 @@
 import supertest from "supertest";
-import { Connection, generateUser } from "..";
-import app from "../../app";
-import { User } from "../../entities/User.entity";
+import { Connection, generateUser } from "../..";
+import app from "../../../app";
+import { User } from "../../../entities/User.entity";
 
 describe("Create user route | Integration Test", () => {
   const dbConnection = new Connection();

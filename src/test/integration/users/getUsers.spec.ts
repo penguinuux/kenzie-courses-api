@@ -1,9 +1,9 @@
 import { sign } from "jsonwebtoken";
 import supertest from "supertest";
-import { Connection } from "..";
-import app from "../../app";
-import { User } from "../../entities/User.entity";
-import { userRepository } from "../../repositories";
+import { Connection } from "../..";
+import app from "../../../app";
+import { User } from "../../../entities/User.entity";
+import { userRepository } from "../../../repositories";
 
 describe("Get users route | Integration Test", () => {
   const dbConnection = new Connection();

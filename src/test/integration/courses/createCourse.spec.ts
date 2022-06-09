@@ -1,9 +1,9 @@
 import supertest from "supertest";
-import { Connection, generateCourse } from "..";
-import app from "../../app";
-import { User } from "../../entities";
-import { Course } from "../../entities/Course.entity";
-import { userRepository } from "../../repositories";
+import { Connection, generateCourse } from "../..";
+import app from "../../../app";
+import { User } from "../../../entities";
+import { Course } from "../../../entities/Course.entity";
+import { userRepository } from "../../../repositories";
 import { sign } from "jsonwebtoken";
 
 describe("Create course route | Integration Test", () => {
