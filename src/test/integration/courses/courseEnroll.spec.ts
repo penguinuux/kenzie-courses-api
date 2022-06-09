@@ -6,7 +6,7 @@ import { Course } from "../../../entities/Course.entity";
 import { courseRepository, userRepository } from "../../../repositories";
 import { sign } from "jsonwebtoken";
 
-describe("Get courses route | Integration Test", () => {
+describe("Course enroll route | Integration Test", () => {
   const dbConnection = new Connection();
 
   beforeAll(async () => {
@@ -22,7 +22,7 @@ describe("Get courses route | Integration Test", () => {
     await dbConnection.clear();
   });
 
-  it("Return: Course list as JSON response | Status code: 200", async () => {
+  it("Return: Email de inscrição enviado com sucesso | Status code: 200", async () => {
     const course = new Course();
     course.courseName = "name";
     course.duration = "duration";
@@ -44,22 +44,51 @@ describe("Get courses route | Integration Test", () => {
     });
 
     const response = await supertest(app)
-      .get("/courses")
+      .post(`/courses/${course.id}/users`)
       .send()
       .set("Authorization", `Bearer ${token}`);
 
     expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty("map");
-    expect(response.body[0]).toHaveProperty("id");
+    expect(response.body).toHaveProperty("message");
+    expect(response.body).toStrictEqual({
+      message: "Email de inscrição enviado com sucesso.",
+    });
   });
 
   it("Return: Body error, missing authorization token | Status code: 400", async () => {
-    const response = await supertest(app).post("/courses").send();
+    const course = new Course();
+    course.courseName = "name";
+    course.duration = "duration";
+
+    await courseRepository.save(course);
+
+    const response = await supertest(app)
+      .post(`/courses/${course.id}/users`)
+      .send();
 
     expect(response.status).toBe(400);
     expect(response.body).toHaveProperty("message");
     expect(response.body).toStrictEqual({
       message: "Missing authorization token.",
+    });
+  });
+
+  it("Return: Body error, jwt malformed | Status code: 401", async () => {
+    const course = new Course();
+    course.courseName = "name";
+    course.duration = "duration";
+
+    await courseRepository.save(course);
+
+    const response = await supertest(app)
+      .post(`/courses/${course.id}/users`)
+      .send()
+      .set("Authorization", "Bearer saodhlsdjf");
+
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("message");
+    expect(response.body).toStrictEqual({
+      message: "jwt malformed",
     });
   });
 });
