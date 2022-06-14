@@ -1,0 +1,330 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Kenzie Course API",
+    "description": "An easy to use Kenzie API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Development state"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "post": {
+        "description": "User register",
+        "tags": ["Users"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/User" }
+            },
+            "examples": {
+              "user": {
+                "value": {
+                  "firstName": "Paulo",
+                  "lastName": "Claudio",
+                  "email": "pauloclaudio@mail.com",
+                  "age": 33,
+                  "password": "1234"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/UserReturn"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "get": {
+        "description": "Retrieve all users",
+        "tags": ["Users"],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "400": {
+            "description": "Missing authorization token"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "description": "User login",
+        "tags": ["Login"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Login" }
+            },
+            "examples": {
+              "login": {
+                "value": {
+                  "email": "pauloclaudio@mail.com",
+                  "password": "1234"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok"
+          }
+        }
+      }
+    },
+    "/users/{userId}": {
+      "patch": {
+        "description": "Update users",
+        "tags": ["Users"],
+        "parameters": {
+          "name": "userId",
+          "in": "path",
+          "required": "true"
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "firstName": {
+                    "type": "string",
+                    "example": "Pedro"
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "example": "Paulo"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "get": {
+        "description": "Retrieve users",
+        "tags": ["Users"],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/courses": {
+      "post": {
+        "description": "Course register",
+        "tags": ["Courses"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Course" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/CourseReturn"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "get": {
+        "description": "Retrieve courses",
+        "tags": ["Courses"],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          }
+        }
+      }
+    },
+    "/courses/{courseId}": {
+      "patch": {
+        "description": "Update courses",
+        "tags": ["Courses"],
+        "security": {
+          "bearerAuth": []
+        },
+        "parameters": {
+          "name": "courseId",
+          "in": "path",
+          "required": "true"
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "duration": {
+                    "type": "string",
+                    "example": "2 meses"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "404": {
+            "description": "Course not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "example": "Paulo"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Claudio"
+          },
+          "email": {
+            "type": "string",
+            "example": "pauloclaudio@email.com"
+          },
+          "age": {
+            "type": "number",
+            "example": 33
+          },
+          "password": {
+            "type": "string",
+            "example": "strongPassword@!"
+          }
+        }
+      },
+      "UserReturn": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "29788820-4fa9-4d61-bb5c-5b8b5ac9f606"
+          },
+          "firstName": {
+            "type": "string",
+            "example": "Paulo"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Claudio"
+          },
+          "email": {
+            "type": "string",
+            "example": "pauloclaudio@email.com"
+          },
+          "isAdm": {
+            "type": "boolean",
+            "example": false
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2022-05-28T15:36:36.696Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2022-05-28T15:36:36.696Z"
+          },
+          "courses": {
+            "type": "array"
+          }
+        }
+      },
+      "Course": {
+        "type": "object",
+        "properties": {
+          "courseName": {
+            "type": "string",
+            "example": "HTML5"
+          },
+          "duration": {
+            "type": "string",
+            "example": "3 meses"
+          }
+        }
+      },
+      "CourseReturn": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "f5b22474-a500-4a54-a04f-c25edf8e852c"
+          },
+          "courseName": {
+            "type": "string",
+            "example": "HTML5"
+          },
+          "duration": {
+            "type": "string",
+            "example": "3 meses"
+          }
+        }
+      },
+      "Login": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "pauloclaudio@mail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "strongPassword@!"
+          }
+        }
+      },
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      }
+    }
+  }
+}
