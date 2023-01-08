@@ -1,24 +1,36 @@
-# **Entrega KenzieCourses**
+# First time run com Docker
 
-> ## Nesta entrega você irá criar ***Testes*** para todas as rotas, além de aplicar seus conhecimentos em ***Docker***, ***Relacionamentos***, envio de emails com ***NodeMailer*** e documentação com ***Swagger***.
+## Configurações iniciais
 
-</br>
+Faça a configuração do arquivo **.env** conforme .env.example.
 
-> ### Suas missões aqui são: 
+Inicialize seu gerenciador de pacotes para instalar todas as bibliotecas.
 
-* Criar a rota que fará a inscrição do student no curso desejado. As demais rotas já estão prontas.
-* Fazer com que um email seja disparado para o student após a inscrição no curso, contendo um template com informações do curso (courseName e duration).
-* Dockerizar a aplicação com docker compose.
-* Criar testes para todas as rotas.
-* No final, porém não menos importante, criar a documentação da API utilizando Swagger. 
+**Rode o seguinte comando no terminal para inicializar a aplicação:**
 
-</br>
+```bash
+  sudo docker compose up
+```
+
+**Rode o seguinte comando para parar:**
+
+```bash
+  sudo docker compose down
+```
+
+---
+
+# Documentação
+
+## Rota Doc (swagger)
+
+### Acesso a documentação
+
+`GET /api-documentation`
 
 ## Rotas Users
 
-</br>
-
-<h3>Cadastro de usuários</h3>
+### Cadastro de usuários
 
 `POST /users - FORMATO DA REQUISIÇÃO `
 
@@ -49,9 +61,7 @@
 }
 ```
 
-</br></br>
-
-<h3> Login de usuários</h3>
+### Login de usuários
 
 `POST /login - FORMATO DA REQUISIÇÃO `
 
@@ -72,9 +82,7 @@
 }
 ```
 
-</br></br>
-
-<h3>Atualização de usuários</h3>
+### Atualização de usuários
 
 `PATCH /users/:id - FORMATO DA REQUISIÇÃO `
 
@@ -107,9 +115,7 @@
 }
 ```
 
-</br></br>
-
-<h3>Busca de um usuário</h3>
+### Busca de um usuário
 
 `GET /users/:id - NO BODY `
 
@@ -132,9 +138,7 @@
 }
 ```
 
-</br></br>
-
-<h3>Busca de todos os usuários</h3>
+### Busca de todos os usuários
 
 `GET /users - NO BODY `
 
@@ -176,13 +180,9 @@
 ]
 ```
 
-</br></br>
-
 ## Rotas Courses
 
-</br>
-
-<h3>Cadastro de cursos</h3>
+### Cadastro de cursos
 
 `POST /courses - FORMATO DA REQUISIÇÃO `
 
@@ -207,9 +207,7 @@
 }
 ```
 
-</br>
-
-<h3>Busca de todos os cursos</h3>
+### Busca de todos os cursos
 
 `GET /courses - NO BODY `
 
@@ -238,7 +236,6 @@
   }
 ]
 ```
-</br>
 
 > Em caso de sucesso, a resposta será (usuário ADMIN):
 
@@ -267,16 +264,14 @@
         "id": "5e629f4d-6f80-4c44-a3de-9f30878631ec",
         "firstName": "Paulo",
         "lastName": "Claudio",
-        "email": "pauloclaudio@mail.com"    
+        "email": "pauloclaudio@mail.com"
       }
     ]
   }
 ]
 ```
 
-</br>
-
-<h3>Atualiza o curso</h3>
+### Atualiza o curso
 
 `PATCH /courses/:id - FORMATO DA REQUISIÇÂO `
 
